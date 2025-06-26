@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 
 const Navbar = () => {
   const location = useLocation();
@@ -27,12 +27,12 @@ const Navbar = () => {
             <div>
                 <h1 className="font-bold ml-15 text-2xl"><a href="/">Expensa</a></h1>
             </div>
-            <div className=" flex flex-row font-bold mr-5">
-                <p className="mx-5">Overview</p>
-                <p className="mx-5">Expenses</p>
-                <p className="mx-5">Income</p>
-                <p className="mx-5">Budgets</p>
-                <p className="mx-5">Savings</p>
+            <div className=" flex flex-row font-bold mr-5 gap-5">
+                <Link to={"/overview"}>Overview</Link>
+                <Link to={"/expenses"}>Expenses</Link>
+                <Link to={"/income"}>Income</Link>
+                <Link to={"/budgets"}>Budgets</Link>
+                <Link to={"/savings"}>Savings</Link>
             </div>
 </div>
       )}
