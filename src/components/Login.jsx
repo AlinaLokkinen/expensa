@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router";
 
 const Login = () => {
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  
 
   return (
     <div className="flex justify-center ">
@@ -20,7 +24,7 @@ const Login = () => {
             <p className="py-2 self-start">Email address</p>
             <input
               className="p-2 w-10/9 text-center "
-              type="text"
+              type="email"
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -32,15 +36,13 @@ const Login = () => {
               placeholder="Password"
               onChange={(e) => setEmail(e.target.value)}
             />
-            <button className="bg-emerald-600 text-white font-medium rounded-sm px-4 py-2 mt-5">Sign in</button>
+            <button type="submit" className="bg-emerald-600 text-white font-medium rounded-sm px-4 py-2 mt-5">Sign in</button>
           </div>
         </form>
 
         <p className="mt-5">
           Don't have an account yet?{" "}
-          <a className="underline text-green-700" href="/signup">
-            Sign up!
-          </a>
+          <Link className="underline text-green-700" to={"/signup"}>Sign up!</Link>
         </p>
       </div>
     </div>

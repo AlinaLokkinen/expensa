@@ -1,7 +1,31 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { UserAuth } from "../context/Authcontext";
 
 const Signup = () => {
-  const [email, setEmail] = useState("");
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { session, signUpNewUser } = UserAuth();
+  const navigate = useNavigate();
+
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const result = await signUpNewUser(email, password);
+            if (result.success) {
+                navigate('/overview');
+            }
+        } catch (error) {
+            setError("An error occurred");
+        }
+        setLoading(false);
+    }
 
   return (
     <div className="flex justify-center ">
@@ -18,12 +42,12 @@ const Signup = () => {
           Fill in the fields below and start mastering your finances!
         </p>
 
-        <form>
+        <form onSubmit={handleSignUp}>
           <div className="m-5 flex flex-col items-center p-5">
             <p className="py-2 self-start">Email address</p>
             <input
               className="p-2 w-10/9 text-center "
-              type="text"
+              type="email"
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -33,18 +57,19 @@ const Signup = () => {
               className="p-2 w-10/9 text-center"
               type="password"
               placeholder="Password"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <button className="bg-emerald-600 text-white font-medium rounded-sm px-4 py-2 mt-5">
+            <button type="submit" disabled={loading} className="bg-emerald-600 text-white font-medium rounded-sm px-4 py-2 mt-5">
               Sign in
             </button>
+            {error && (
+                <p className="mt-5 font-bold">{error}</p>
+            )}
           </div>
         </form>
-        <p className="mt-5">
+        <p className="">
           Already have an account?{" "}
-          <a className="underline text-green-700" href="/login">
-            Sign in!
-          </a>
+          <Link className="underline text-green-700"  to={"/login"}>Sign in!</Link>
         </p>
       </div>
     </div>
