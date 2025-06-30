@@ -31,30 +31,34 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   // sing in function
-  const signInUser = async () => {
+  const signInUser = async (email, password) => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
+        email: email.toLowerCase(),
         password: password,
       });
       if (error) {
-        console.err('Sign in error: ', error);
+        console.error('Sign in error: ', error);
         return {success: false, error: error.message};
       }
-      console.log('Sign in successfull: ', data);
+      console.log('Sign in successful: ', data);
       return {success: true, data};
     } catch (error) {
       console.error("There was an error: ", error);
+      return {
+        success: false,
+        error: "An unexpected error occurred. Please try again.",
+      };
     }
   };
 
   // sign out function
-  const signOutUser = () => {
-    const { error } = supabase.auth.signOut();
+  async function signOutUser() {
+    const { error } = await supabase.auth.signOut();
     if (error) {
-      console.err("There was an error signing out: ", error);
+      console.error("Error signing out:", error);
     }
-  };
+  }
 
   return (
     <AuthContext.Provider value={{ session, signUpNewUser, signInUser, signOutUser }}>

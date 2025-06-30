@@ -1,4 +1,12 @@
+import { UserAuth } from "../context/Authcontext";
+
 const Overview = () => {
+
+  const { session } = UserAuth();
+  console.log(session);
+  // näytä username session avulla
+
+
   return (
     <div className="mt-75 grid grid-cols-2 m-25 gap-y-2 gap-x-4">
       <div className="bg-green-100">

@@ -1,31 +1,29 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { UserAuth } from "../context/Authcontext";
+import { UserAuth } from "../context/AuthContext";
 
 const Signup = () => {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { session, signUpNewUser } = UserAuth();
+  const { signUpNewUser } = UserAuth();
   const navigate = useNavigate();
 
-
-    const handleSignUp = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            const result = await signUpNewUser(email, password);
-            if (result.success) {
-                navigate('/overview');
-            }
-        } catch (error) {
-            setError("An error occurred");
-        }
-        setLoading(false);
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const result = await signUpNewUser(email, password);
+      if (result.success) {
+        navigate("/overview");
+      }
+    } catch (error) {
+      setError("An error occurred!");
     }
+    setLoading(false);
+  };
 
   return (
     <div className="flex justify-center ">
@@ -43,10 +41,13 @@ const Signup = () => {
         </p>
 
         <form onSubmit={handleSignUp}>
+          <input type="hidden" value="prayer" />
+
           <div className="m-5 flex flex-col items-center p-5">
             <p className="py-2 self-start">Email address</p>
             <input
-              className="p-2 w-10/9 text-center "
+              autoComplete="new-password"
+              className="p-2 w-10/9 text-center bg-green-50 rounded-sm"
               type="email"
               placeholder="Email"
               onChange={(e) => setEmail(e.target.value)}
@@ -54,22 +55,27 @@ const Signup = () => {
 
             <p className="mt-5 py-2 self-start">Password</p>
             <input
-              className="p-2 w-10/9 text-center"
+              autoComplete="new-password"
+              className="p-2 w-10/9 text-center bg-green-50 rounded-sm"
               type="password"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit" disabled={loading} className="bg-emerald-600 text-white font-medium rounded-sm px-4 py-2 mt-5">
-              Sign in
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-emerald-600 text-white font-medium rounded-sm px-4 py-2 mt-5"
+            >
+              Sign up
             </button>
-            {error && (
-                <p className="mt-5 font-bold">{error}</p>
-            )}
+            {error && <p className="mt-5 font-bold">{error}</p>}
           </div>
         </form>
         <p className="">
           Already have an account?{" "}
-          <Link className="underline text-green-700"  to={"/login"}>Sign in!</Link>
+          <Link className="underline text-green-700" to={"/login"}>
+            Sign in!
+          </Link>
         </p>
       </div>
     </div>
